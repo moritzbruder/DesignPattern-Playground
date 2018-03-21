@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='rendered'>
+    <pages>
+        <page name='ShoppingListApplication'/>
+        <page name='Observer'/>
+        <page name='Observer_Part2'/>
+    </pages>
+</playground>
