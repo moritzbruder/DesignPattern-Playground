@@ -4,7 +4,7 @@ import UIKit
 
 print("Make sure to enable \"Render Documentation\" in the file inspector window :)")
 /*:
- ## Our small project
+ # Our project
  
  Ok, let's say we want to show **a list of shopping-list-items** in our application along with an item-counter on the top. Just like the view you can see in the live-preview of this playground
  

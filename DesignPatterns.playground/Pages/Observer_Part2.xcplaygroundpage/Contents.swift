@@ -47,13 +47,12 @@ repository.add(observer: controller)
 /*:
  - Note:
  In case you're having difficulties, the line of code you need is at the bottom of this file ;)
- */
-
-/*:
- *Great!* we should try if it's working:
- * Experiment:
- Now add an item again and now the list and check if the list and counter update accordingly!
  
+ Now we should try if it's working:
+ * Experiment:
+ Add an item in the Live View again and check if the list and counter update accordingly!
+ */
+/*:
  ## Build your own Observer
  Ok great, it is working, but now you should build your own Observer.
  
@@ -73,6 +72,7 @@ class MyObserver : Observer {
 let myObserver = MyObserver()
 
 // register myObserver to watch repository here:
+
 
 
 
