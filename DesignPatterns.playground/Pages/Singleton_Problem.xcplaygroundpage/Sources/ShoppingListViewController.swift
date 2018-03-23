@@ -1,11 +1,11 @@
 import Foundation
 import UIKit
 
-public class ShoppingListViewController: UIViewController, UITableViewDataSource, UIGestureRecognizerDelegate, Observer {
+public class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, Observer {
     
     private var repository: Repository<Item>!
     private let tableView = UITableView()
-    private let counterLabel  = UILabel(frame: CGRect(x: 14, y: 60, width: 380, height: 40))
+    private let counterLabel  = UILabel(frame: CGRect(x: 14, y: 120, width: 380, height: 40))
     
     public func set (repository: Repository<Item>) {
         self.repository = repository
@@ -18,7 +18,8 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
         view.backgroundColor = .white
         
         tableView.dataSource = self
-        tableView.frame = CGRect(x: 0, y: 100, width: 380, height: 600)
+        tableView.delegate = self
+        tableView.frame = CGRect(x: 0, y: 160, width: 380, height: 600)
         view.addSubview(tableView)
         
         
@@ -27,7 +28,7 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
         view.addSubview(counterLabel)
         
         
-        let button = UIButton(frame: CGRect(x: 0, y: 20, width: 380, height: 80))
+        let button = UIButton(frame: CGRect(x: 0, y: 80, width: 380, height: 80))
         button.setTitle("Add Item", for: .normal)
         button.setTitleColor(UIColor.blue, for: .normal)
         button.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
@@ -37,7 +38,7 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
         
         NSLayoutConstraint.activate([
             button.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
-            button.firstBaselineAnchor.constraint(equalTo: view.firstBaselineAnchor)
+            button.firstBaselineAnchor.constraint(equalTo: view.firstBaselineAnchor, constant: 60)
             ])
         
         
@@ -80,6 +81,15 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
         
     }
     
+    /* UITableViewDelegate implementation */
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = repository.getAll()[indexPath.row]
+        item.set(completed: true)
+        repository.update(item: item)
+        
+    }
+    
     /* UITableViewDataSource implementation */
     
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -93,8 +103,15 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let item = repository.getAll()[indexPath.row]
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = repository.getAll()[indexPath.row].getName()
+        let attrString = NSMutableAttributedString(string: item.getName())
+        print("\(item.isCompleted())")
+        if (item.isCompleted()) {
+            attrString.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 2, range: NSMakeRange(0, attrString.length))
+
+        }
+        cell.textLabel?.attributedText = attrString
         return cell
         
     }

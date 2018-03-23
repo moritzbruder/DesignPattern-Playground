@@ -14,11 +14,6 @@ import PlaygroundSupport
 // Our (observable) repository
 let repository = Repository<Item>()
 
-// We will fill the repository with dummy data again
-repository.store(item: Item("Milk"))
-repository.store(item: Item("Bread"))
-repository.store(item: Item("Peanut Butter"))
-
 // The view controller from before, we changed it to implement the Observer protocol
 let controller = ShoppingListViewController()
 controller.set(repository: repository)
@@ -75,6 +70,12 @@ let myObserver = MyObserver()
 
 
 
+
+
+// Here we will fill the repository with dummy data again
+repository.store(item: Item("Milk"))
+repository.store(item: Item("Bread"))
+repository.store(item: Item("Peanut Butter"))
 
 /*:
  ## Conclusion
