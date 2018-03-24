@@ -5,9 +5,9 @@ import UIKit
 
 //: ## Using our new Singleton
 /*:
- I changed our `ShoppingListViewController` by removing the `set(repository:)` function and using the repository of our `AppRepositories`-singleton
+ I changed our `ShoppingListViewController` by removing the `set(repository:)` function and using the repository of our `AppRepositories`-singleton.
  
- This means that we can use our repositories like so, from now on:
+ From now on we can use our repositories like so:
  */
 AppRepositories.shared.shopping.store(item: Item("Water"))
 
@@ -24,7 +24,7 @@ shoppingRepo.store(item: Item("Butter"))
 /*:
  * Experiment:
   Go take a look at our app again and click on one of the items.\
- You can see that, unlike before, it now changes in both tabs
+ You can see that it changes in both tabs
  */
 
 /*:

@@ -4,9 +4,9 @@
 /*:
  Let's start with our example again.
  
- We have the same application with a list and an item counter running.
+ We have the **same shopping-list app** with a list and an item counter running.
  
- Our goal is now to make sure that the list and counter update whenever our repository changes
+ Our goal is now to make sure that the list and counter **update whenever our repository changes**
  
  The basic concept behind this pattern is, that `Observer`-objects can watch `Observable`-objects and be notified when the `Observale`-object changes
  
@@ -20,7 +20,7 @@ class Observable {
     private var observers: [Observer] = []
     
     /**
-     We will use the add() function to start watching an Observable later
+     We will use the add(observer:) function to start watching an Observable later
      */
     public func add (observer: Observer) {
         self.observers.append(observer)
@@ -28,7 +28,7 @@ class Observable {
     }
     
     /**
-     Function for use within the Obersvable-class to notify the observers
+     We use this function within the Obersvable-class to notify the observers
     */
     func notifyDatasetChanged () {
         // Go through the list of observers and notify every one of them
@@ -42,7 +42,7 @@ class Observable {
  
 /*:
  * Experiment:
- So let's get started and change our Repository-class from before to extend the Observable class
+ So let's get started. Go ahead and change our Repository-class from before to extend the Observable class
  
  - Example:
  To extend a class in swift you add the name of the class you want to extend after a colon, like so:\

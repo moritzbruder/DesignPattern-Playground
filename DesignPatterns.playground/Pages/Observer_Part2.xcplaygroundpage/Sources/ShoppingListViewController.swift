@@ -40,6 +40,7 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
             button.firstBaselineAnchor.constraint(equalTo: view.firstBaselineAnchor)
             ])
         
+        updateViews()
         
         self.view = view
     }

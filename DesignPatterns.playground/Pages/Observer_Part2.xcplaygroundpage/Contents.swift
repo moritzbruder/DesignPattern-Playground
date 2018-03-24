@@ -8,13 +8,13 @@ import PlaygroundSupport
  
  Our shopping-list app is running in the Live View again.
  
- We made sure that our ViewController implements the `Observer`-protocol, so we now only have to tell it to observe our repository
+ I made sure that our ViewController implements the `Observer`-protocol, so we now only have to tell it to observe our repository
 */
 
 // Our (observable) repository
 let repository = Repository<Item>()
 
-// The view controller from before, we changed it to implement the Observer protocol
+// The same ViewController as before, but I changed it to implement the Observer protocol
 let controller = ShoppingListViewController()
 controller.set(repository: repository)
 // Show the controller in the Live View window
@@ -36,7 +36,7 @@ PlaygroundPage.current.liveView = controller
 
 // Add your code here:
 
-repository.add(observer: controller)
+
 
 
 /*:
@@ -49,10 +49,11 @@ repository.add(observer: controller)
  */
 /*:
  ## Build your own Observer
- Ok great, it is working, but now you should build your own Observer.
+ Neat, it's working! Now you should build your own Observer.
  
  * Experiment:
- Edit the class below to do something when the data has changed (for example print a message to the console) and use the `add(observer:)` function again to add your new Observer to the repository
+ (1) Edit the class below to do something when the data has changed (for example print a message to the console) and\
+ (2) use the `add(observer:)` function again to add your new Observer to the repository
  */
 
 class MyObserver : Observer {
@@ -66,13 +67,13 @@ class MyObserver : Observer {
 
 let myObserver = MyObserver()
 
-// register myObserver to watch repository here:
+// register myObserver to observe repository here:
 
 
 
 
 
-// Here we will fill the repository with dummy data again
+// Here we fill the repository with dummy data again
 repository.store(item: Item("Milk"))
 repository.store(item: Item("Bread"))
 repository.store(item: Item("Peanut Butter"))

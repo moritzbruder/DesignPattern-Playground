@@ -8,5 +8,8 @@
         <page name='Singleton_Problem'/>
         <page name='Singleton_Solution'/>
         <page name='Singleton_Application'/>
+        <page name='State_Problem'/>
+        <page name='State_Solution'/>
+        <page name='State_Application'/>
     </pages>
 </playground>

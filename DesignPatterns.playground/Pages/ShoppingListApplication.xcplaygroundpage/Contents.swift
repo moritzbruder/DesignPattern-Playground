@@ -47,9 +47,9 @@ let repository = Repository<Item>()
  Make sure to take a look at the Live View window, there's a simple iOS-App running there.
  
  * Experiment:
- Go ahead and add an item or two in the live preview and see what happens.
+ Go ahead and try to add an item or two in the live view and see what happens.
  
- Watch the console when you press the button. The full array is printed there. Note the different behavior of user interface and internal state.
+ Watch the console when you press the button. The repository's content is printed there. Note the different behavior of user interface and internal state.
  */
 // Prefill repository with a few items
 repository.store(item: Item("Milk"))
