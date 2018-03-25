@@ -9,7 +9,7 @@ public class Repository<T> : Observable  {
     
     private var items: [T] = []
     
-    public func store (item: T) {
+    public func store (_ item: T) {
         self.items.append(item)
         self.notifyDatasetChanged()
         

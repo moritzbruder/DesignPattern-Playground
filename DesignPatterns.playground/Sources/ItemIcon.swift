@@ -19,6 +19,15 @@ public class ItemIcon {
         } else if (name.lowercased().contains("tomato")) {
             return UIImage.init(named: "icon/tomato")
             
+        } else if (name.lowercased().contains("butter")) {
+            return UIImage.init(named: "icon/butter")
+            
+        } else if (name.lowercased().contains("water")) {
+            return UIImage.init(named: "icon/water")
+            
+        } else if (name.lowercased().contains("apple")) {
+            return UIImage.init(named: "icon/apple")
+            
         } else if (name.lowercased().contains("new")) {
             return UIImage.init(named: "icon/new")
             

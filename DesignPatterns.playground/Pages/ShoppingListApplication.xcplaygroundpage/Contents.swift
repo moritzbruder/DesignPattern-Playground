@@ -1,4 +1,5 @@
 //: [Previous](@previous)
+
 import PlaygroundSupport
 import UIKit
 
@@ -32,7 +33,7 @@ public class Repository<T> {
     
     var items: [T] = []
     
-    public func store (item: T) {
+    public func store (_ item: T) {
         self.items.append(item)
         
     }
@@ -43,11 +44,11 @@ public class Repository<T> {
 let repository = Repository<Item>()
 
 // Prefill repository with dummy items
-repository.store(item: Item("Milk"))
-repository.store(item: Item("Bread"))
-repository.store(item: Item("Peanut Butter"))
-repository.store(item: Item("Tomatoes"))
-repository.store(item: Item("Chocolate Cookies"))
+repository.store(Item("Milk"))
+repository.store(Item("Bread"))
+repository.store(Item("Peanut Butter"))
+repository.store(Item("Tomatoes"))
+repository.store(Item("Chocolate Cookies"))
 //: The repository is basically an array, but we'll make it smarter soon.
 /*:
  ### Live View
@@ -148,7 +149,7 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
      */
     private var addedItemsCounter = 1
     @objc func handleTap () {
-        repository.store(item: Item("New item #\(addedItemsCounter)"))
+        repository.store(Item("New item #\(addedItemsCounter)"))
         addedItemsCounter += 1
         printRepo()
         print("")

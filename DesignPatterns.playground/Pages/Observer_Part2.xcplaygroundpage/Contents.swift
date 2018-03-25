@@ -18,11 +18,11 @@ import UIKit
 let repository = Repository<Item>()
 
 // Here we fill the repository with dummy data again
-repository.store(item: Item("Milk"))
-repository.store(item: Item("Bread"))
-repository.store(item: Item("Peanut Butter"))
-repository.store(item: Item("Tomatoes"))
-repository.store(item: Item("Chocolate Cookies"))
+repository.store(Item("Milk"))
+repository.store(Item("Bread"))
+repository.store(Item("Peanut Butter"))
+repository.store(Item("Tomatoes"))
+repository.store(Item("Chocolate Cookies"))
 
 
 // The same ViewController as before, but I changed it to implement the Observer protocol

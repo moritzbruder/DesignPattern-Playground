@@ -12,7 +12,7 @@
  */
 class AppRepositories {
     
-    // The static member, this is typically called "shared" in Swift
+    // The static member, typically called "shared" in Swift
     public static let shared = AppRepositories()
     
     private init () {
@@ -20,7 +20,7 @@ class AppRepositories {
         
     }
     
-    // Our repositories
+    // Your repositories
     public let shopping = Repository<Item>()
     public let user = Repository<String>()
     
@@ -30,8 +30,12 @@ class AppRepositories {
  */
 // example to retrieve all shopping-list items
 let allItems = AppRepositories.shared.shopping.getAll()
+
+// example to save a username
+AppRepositories.shared.user.store("Brutus")
 /*:
- This means we now have a centralized way of accessing our repositories. Go to the next page to use it in our shopping-list app
+ This means you now have a centralized way of accessing your repositories.\
+ Go to the next page to use it in our shopping-list app.
  
  [Next](@next)
  */

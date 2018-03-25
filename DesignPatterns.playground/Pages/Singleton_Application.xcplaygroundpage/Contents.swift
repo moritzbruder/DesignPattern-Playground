@@ -5,21 +5,21 @@ import UIKit
 
 //: ## Using our new Singleton
 /*:
- I changed our `ShoppingListViewController` by removing the `set(repository:)` function and using the repository of our `AppRepositories`-singleton.
+ I changed our `ShoppingListViewController` by removing the `set(repository:)` function and using the repository of our `AppRepositories`-singleton instead.
  
- From now on we can use our repositories like so:
+ From now on you can use your repositories like so:
  */
-AppRepositories.shared.shopping.store(item: Item("Water"))
+AppRepositories.shared.shopping.store(Item("Water"))
 
-// if we use a repository frequently we can obviously also create a constant holding a specific repository to make our code look nicer:
+// if you use a repository frequently you can also create a constant holding a specific repository to make our code look nicer:
 let shoppingRepo = AppRepositories.shared.shopping
 
 // Now we can use it just like before:
-shoppingRepo.store(item: Item("Bread"))
-shoppingRepo.store(item: Item("Butter"))
+shoppingRepo.store(Item("Bread"))
+shoppingRepo.store(Item("Apples"))
 
 /*:
- I also made sure that our `ShoppingListViewController` **starts observing the repository by itself** in its constructor, so we get notified about any changes in the repo
+ I also made sure that our `ShoppingListViewController` **starts observing the repository by itself** in its constructor and updates its views when the repository changes.
  */
 /*:
  * Experiment:
@@ -29,7 +29,9 @@ shoppingRepo.store(item: Item("Butter"))
 
 /*:
  ## Your turn
- To **get you a little more involved again**, I want you to complete the function below to choose one name at random from the list of all users and print it to the console
+ To **get you a little more involved again**, I want you to complete the function below to choose one name at random from the list of all users and print it to the console.
+ - Note:
+ You can use the `getAll()` function of `Repository` to get an array of all items.
  */
 func printRandomName () {
     // Choose one name from the user-repository and print it to the console
@@ -37,9 +39,9 @@ func printRandomName () {
 }
 
 // Add a few users
-AppRepositories.shared.user.store(item: "Max")
-AppRepositories.shared.user.store(item: "Jane")
-AppRepositories.shared.user.store(item: "Earl")
+AppRepositories.shared.user.store("Max")
+AppRepositories.shared.user.store("Jane")
+AppRepositories.shared.user.store("Earl")
 
 // Call your function
 printRandomName()

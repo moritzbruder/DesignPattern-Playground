@@ -70,7 +70,7 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
      */
     private var addedItemsCounter = 1
     @objc func handleTap () {
-        repository.store(item: Item("New item #\(addedItemsCounter)"))
+        repository.store(Item("New item #\(addedItemsCounter)"))
         addedItemsCounter += 1
         printRepo()
         print("")

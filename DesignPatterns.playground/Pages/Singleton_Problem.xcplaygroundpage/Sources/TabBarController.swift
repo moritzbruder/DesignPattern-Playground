@@ -16,7 +16,7 @@ public class TabBarController : UITabBarController {
         con2.set(repository: rep)
         con2.title = "All"
         
-        rep.store(item: Item("Wowy"))
+        rep.store(Item("Wowy"))
         
         viewControllers = [con1, con2].map { UINavigationController(rootViewController: $0) }
     }
