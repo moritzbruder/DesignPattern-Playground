@@ -49,7 +49,7 @@ public class Observable {
  - Example:
  Quick reminder: In Swift you extend a class like this:\
  `class YourClass : ClassToExtend {`\
-          `    ... (einrücken)`\
+ `     ...`\
  `}`
  */
 // Change the code here to make Repository an Observable
@@ -83,6 +83,9 @@ public protocol Observer {
 
  [Next](@next)
  */
+
+
+
 
 
 // Print experiment result

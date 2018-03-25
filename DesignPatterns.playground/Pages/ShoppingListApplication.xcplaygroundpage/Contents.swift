@@ -42,7 +42,7 @@ public class Repository<T> {
 // Item-Repository
 let repository = Repository<Item>()
 
-// Prefill repository with a dummy items
+// Prefill repository with dummy items
 repository.store(item: Item("Milk"))
 repository.store(item: Item("Bread"))
 repository.store(item: Item("Peanut Butter"))
