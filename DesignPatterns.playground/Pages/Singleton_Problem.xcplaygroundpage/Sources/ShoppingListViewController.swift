@@ -1,11 +1,12 @@
 import Foundation
 import UIKit
 
-public class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, Observer {
+
+public class ShoppingListViewController: UIViewController, UITableViewDataSource, UIGestureRecognizerDelegate, Observer {
     
-    private var repository: Repository<Item>!
+    private var repository: Repository<Item> = Repository<Item>()
     private let tableView = UITableView()
-    private let counterLabel  = UILabel(frame: CGRect(x: 14, y: 120, width: 380, height: 40))
+    private let counterLabel  = UILabel(frame: CGRect(x: 0, y: 110, width: 380, height: 40))
     
     public func set (repository: Repository<Item>) {
         self.repository = repository
@@ -17,30 +18,38 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
         let view = UIView()
         view.backgroundColor = .white
         
+        self.title = "Shopping List"
+        
         tableView.dataSource = self
-        tableView.delegate = self
-        tableView.frame = CGRect(x: 0, y: 160, width: 380, height: 600)
+        tableView.frame = CGRect(x: 0, y: 150, width: 380, height: 520)
         view.addSubview(tableView)
         
         
         counterLabel.text = "0 items"
         counterLabel.textColor = UIColor.gray
+        counterLabel.textAlignment = .center
+        counterLabel.font = UIFont.boldSystemFont(ofSize: counterLabel.font.pointSize)
         view.addSubview(counterLabel)
         
         
-        let button = UIButton(frame: CGRect(x: 0, y: 80, width: 380, height: 80))
+        let button = UIButton(frame: CGRect(x: 0, y: 20, width: 380, height: 80))
         button.setTitle("Add Item", for: .normal)
         button.setTitleColor(UIColor.blue, for: .normal)
         button.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
         view.addSubview(button)
         
+        let addItemButton = UIImageView(frame: CGRect(x: 82.5, y: 60, width: 215, height: 44))
+        addItemButton.image = UIImage.init(named: "AddItem_Button")
+        view.addSubview(addItemButton)
+        
         
         
         NSLayoutConstraint.activate([
             button.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
-            button.firstBaselineAnchor.constraint(equalTo: view.firstBaselineAnchor, constant: 60)
+            button.firstBaselineAnchor.constraint(equalTo: view.firstBaselineAnchor)
             ])
         
+        updateViews()
         
         self.view = view
     }
@@ -57,6 +66,17 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
         
     }
     
+    public func getIcon (name: String) -> UIImage? {
+        if (name.lowercased().contains("bread")) {
+            return UIImage.init(named: "icon/bread")
+        } else if (name.lowercased().contains("peanut")) {
+            return UIImage.init(named: "icon/peanut")
+        } else if (name.lowercased().contains("milk")) {
+            return UIImage.init(named: "icon/milk")
+        } else {
+            return UIImage.init(named: "icon/new")
+        }
+    }
     
     /**
      A small helper function to add an item to the list every time the button is clicked
@@ -65,6 +85,8 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
     @objc func handleTap () {
         repository.store(item: Item("New item #\(addedItemsCounter)"))
         addedItemsCounter += 1
+        printRepo()
+        print("")
         
     }
     
@@ -74,19 +96,10 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
     private func printRepo () {
         var result = ""
         for item in repository.getAll() {
-            result = "\(result), Item(\"\(item.getName())\")"
+            result = "\(result), Item(\"\(item.name)\")"
         }
         let index = result.index(result.startIndex, offsetBy: 2)
         print("[\(result.suffix(from: index))]")
-        
-    }
-    
-    /* UITableViewDelegate implementation */
-    
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = repository.getAll()[indexPath.row]
-        item.set(completed: true)
-        repository.update(item: item)
         
     }
     
@@ -103,17 +116,24 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         let item = repository.getAll()[indexPath.row]
-        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        let attrString = NSMutableAttributedString(string: item.getName())
-        print("\(item.isCompleted())")
-        if (item.isCompleted()) {
-            attrString.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 2, range: NSMakeRange(0, attrString.length))
-
-        }
-        cell.textLabel?.attributedText = attrString
+        cell.textLabel?.text = item.name
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM 'at' HH:mm:ss"
+        cell.detailTextLabel?.text = "created on \(formatter.string(from: item.createdAt))"
+        cell.imageView?.image = getIcon(name: item.name)
+        
+        let itemSize = CGSize.init(width: 25, height: 25)
+        UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.main.scale);
+        let imageRect = CGRect.init(origin: CGPoint.zero, size: itemSize)
+        cell.imageView?.image!.draw(in: imageRect)
+        cell.imageView?.image! = UIGraphicsGetImageFromCurrentImageContext()!;
+        UIGraphicsEndImageContext();
+        
         return cell
         
     }
     
 }
+

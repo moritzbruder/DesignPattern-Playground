@@ -2,36 +2,48 @@
 
 import Foundation
 import PlaygroundSupport
+import UIKit
 
 /*:
  ## Let's try the Observable pattern with our shopping-app
  
- Our shopping-list app is running in the Live View again.
+ Our shopping-list app is running in the **Live View** again.
  
- I made sure that our ViewController implements the `Observer`-protocol, so we now only have to tell it to observe our repository
+ I changed the ViewController to implement the `Observer`-protocol:\
+ `public class ShoppingListViewController : UIViewController, Observer`
+ 
+ Now we only have to tell it to **observe your repository**.
 */
-
-// Our (observable) repository
+// Your (observable) repository
 let repository = Repository<Item>()
+
+// Here we fill the repository with dummy data again
+repository.store(item: Item("Milk"))
+repository.store(item: Item("Bread"))
+repository.store(item: Item("Peanut Butter"))
+repository.store(item: Item("Tomatoes"))
+repository.store(item: Item("Chocolate Cookies"))
+
 
 // The same ViewController as before, but I changed it to implement the Observer protocol
 let controller = ShoppingListViewController()
 controller.set(repository: repository)
-// Show the controller in the Live View window
-PlaygroundPage.current.liveView = controller
 
+// Show the ViewController in the Live View window
+PlaygroundPage.current.liveView = UINavigationController.init(rootViewController: controller)
 /*:
  * Experiment:
-  Try to click on the **Add Item** button again
+  Try to click on the **Add Item** button again.
  
- Nothing changed, right? That's because we also have to tell our `controller` to start watching our `repository`
+ **Nothing changed, right?** That's because we have to tell `controller` to **start observing** `repository`.
  
  * Experiment:
-  Go ahead and add a line of code below that lets our `controller`  watch the `repository`
+  Add a line of code below that makes `controller` observe `repository`.
  
  - Note:
- The function you want to use now is called `add(observer:)` and is a member of the `Observable` class\
- Remember: `repository` is our `Observable` and `controller` the `Observer` that should watch it
+ Use `add(observer:)` to achieve this.\
+ `add(observer:)` is part of the `Observable` class.\
+ Remember: `repository` is your `Observable` and `controller` the `Observer` that should watch it.
  */
 
 // Add your code here:
@@ -41,42 +53,38 @@ PlaygroundPage.current.liveView = controller
 
 /*:
  - Note:
- In case you're having difficulties, the line of code you need is at the bottom of this file ;)
+ In case you're having difficulties, the line of code you need is at the bottom of this file 😎
  
  Now we should try if it's working:
  * Experiment:
- Add an item in the Live View again and check if the list and counter update accordingly!
+ Add an item in the Live View again.\
+ *Check if the list and counter update correctly!*
  */
 /*:
  ## Build your own Observer
- Neat, it's working! Now you should build your own Observer.
  
  * Experiment:
- (1) Edit the class below to do something when the data has changed (for example print a message to the console) and\
- (2) use the `add(observer:)` function again to add your new Observer to the repository
+ Edit the class below to print "wuff!" to the console when the data has changed.\
+ Use `add(observer:)` again to let `brutus` observe the repository
  */
 
-class MyObserver : Observer {
+class Watchdog : Observer {
     
     func datasetChanged(observable: Observable) {
         // Do something here
+        
+        
         
     }
     
 }
 
-let myObserver = MyObserver()
+let brutus = Watchdog()
 
-// register myObserver to observe repository here:
-
-
+// register brutus to observe repository here:
 
 
 
-// Here we fill the repository with dummy data again
-repository.store(item: Item("Milk"))
-repository.store(item: Item("Bread"))
-repository.store(item: Item("Peanut Butter"))
 
 /*:
  ## Conclusion
@@ -85,11 +93,10 @@ repository.store(item: Item("Peanut Butter"))
  
  We have *one object that multiple other objects depend on*, and *all of them are notified* whenever something in our repository changes.
  
- We could now also let other parts of our software, like persistance or push-notifications, watch the repository
+ We could now also let other parts of our software, like persistance or push-notifications, watch the repository.
  
- Using this pattern we are **very flexible** both in terms of observing objects and notifying objects
+ Using this pattern we are **very flexible** both in terms of observing objects and notifying objects.
  */
-
 
 /*:
  Go to the next chapter to meet the **Singleton** pattern!

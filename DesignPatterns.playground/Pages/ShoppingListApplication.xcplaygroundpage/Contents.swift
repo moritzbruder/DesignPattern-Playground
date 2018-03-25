@@ -4,23 +4,25 @@ import UIKit
 
 print("Make sure to enable \"Render Documentation\" in the file inspector window :)")
 /*:
- # Our project
+ # Your project
  
- Ok, let's say we want to show **a list of shopping-list-items** in our application along with an item-counter on the top. Just like the view you can see in the live-preview of this playground
+ Assume that you're working on a **shopping-list-app**.
  
- Let's consider the following class is all we need for a **shopping-list item**:
+ It must meet these requirements:
+ 1. A **list of items**.
+ 2. An **item counter**.
+ 3. The list & counter must **update** when an item is added.
+ 
+ The following class is all we need for a **shopping-list item**:
  */
 public class Item {
     
-    private let name: String
+    public let name: String
+    public let createdAt: Date
     
     public init (_ name: String) {
         self.name = name
-        
-    }
-    
-    public func getName () -> String {
-        return name
+        self.createdAt = Date.init()
         
     }
     
@@ -37,29 +39,31 @@ public class Repository<T> {
     
 }
 
-
 // Item-Repository
 let repository = Repository<Item>()
 
-/*:
- ### Live View
- 
- Make sure to take a look at the Live View window, there's a simple iOS-App running there.
- 
- * Experiment:
- Go ahead and try to add an item or two in the live view and see what happens.
- 
- Watch the console when you press the button. The repository's content is printed there. Note the different behavior of user interface and internal state.
- */
-// Prefill repository with a few items
+// Prefill repository with a dummy items
 repository.store(item: Item("Milk"))
 repository.store(item: Item("Bread"))
 repository.store(item: Item("Peanut Butter"))
+repository.store(item: Item("Tomatoes"))
+repository.store(item: Item("Chocolate Cookies"))
+//: The repository is basically an array, but we'll make it smarter soon.
+/*:
+ ### Live View
+ 
+ Look at the **Live View window** now.\
+ Your app is running there.
+ 
+ * Experiment:
+ Try to add an item by clicking "**Add Item**" in the Live View.\
+ **Watch the console** as you press the button.\
+ Note the different behavior of user interface and internal state.
+ */
 
 /*:
- This will be our small project to test some *design patterns* with!
- 
- Head over to the next chapter to meet the **Observer** pattern, which will help us to update our UI correctly
+ Go to the next page to meet the **Observer** pattern.\
+ It will help you to **update your UI correctly**!
  
  [Next](@next)
  */
@@ -84,12 +88,13 @@ repository.store(item: Item("Peanut Butter"))
 
 public class ShoppingListViewController: UIViewController, UITableViewDataSource, UIGestureRecognizerDelegate {
     
-    private var repository: Repository<Item>!
+    private var repository: Repository<Item> = Repository<Item>()
     private let tableView = UITableView()
+    private let counterLabel  = UILabel(frame: CGRect(x: 0, y: 110, width: 380, height: 40))
     
     public func set (repository: Repository<Item>) {
         self.repository = repository
-        tableView.reloadData()
+        updateViews()
         
     }
     
@@ -97,52 +102,66 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
         let view = UIView()
         view.backgroundColor = .white
         
+        self.title = "Shopping List"
+        
+        // Add list
         tableView.dataSource = self
-        tableView.frame = CGRect(x: 0, y: 100, width: 380, height: 600)
+        tableView.frame = CGRect(x: 0, y: 150, width: 380, height: 520)
         view.addSubview(tableView)
         
-        let counterLabel = UILabel(frame: CGRect(x: 14, y: 60, width: 380, height: 40))
-        counterLabel.text = "No. items: 3"
+        // Add label with number of items
         counterLabel.textColor = UIColor.gray
+        counterLabel.textAlignment = .center
+        counterLabel.font = UIFont.boldSystemFont(ofSize: counterLabel.font.pointSize)
         view.addSubview(counterLabel)
         
-        
+        // Clickable button
         let button = UIButton(frame: CGRect(x: 0, y: 20, width: 380, height: 80))
-        button.setTitle("Add Item", for: .normal)
-        button.setTitleColor(UIColor.blue, for: .normal)
         button.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
         view.addSubview(button)
         
+        // Button image
+        let addItemButton = UIImageView(frame: CGRect(x: 82.5, y: 60, width: 215, height: 44))
+        addItemButton.image = UIImage.init(named: "AddItem_Button")
+        view.addSubview(addItemButton)
         
-        
+        // Move button
         NSLayoutConstraint.activate([
             button.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
             button.firstBaselineAnchor.constraint(equalTo: view.firstBaselineAnchor)
             ])
         
+        // init views
+        updateViews()
         
         self.view = view
     }
     
+    private func updateViews () {
+        tableView.reloadData()
+        counterLabel.text = "\(self.repository.items.count) items"
+        
+    }
     
     /**
-     A small helper function to add an item to the list every time the button is clicked
+     Helper function to add an item to the list every time the button is clicked
      */
     private var addedItemsCounter = 1
     @objc func handleTap () {
         repository.store(item: Item("New item #\(addedItemsCounter)"))
         addedItemsCounter += 1
         printRepo()
+        print("")
         
     }
     
     /**
-     A small function which prints the whole repository to the console
+     prints the whole repository to the console
      */
     private func printRepo () {
         var result = ""
         for item in repository.items {
-            result = "\(result), Item(\"\(item.getName())\")"
+            result = "\(result), Item(\"\(item.name)\")"
         }
         let index = result.index(result.startIndex, offsetBy: 2)
         print("[\(result.suffix(from: index))]")
@@ -162,8 +181,25 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = repository.items[indexPath.row].getName()
+        // Create new cell
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        
+        // Fill views
+        let item = repository.items[indexPath.row]
+        cell.textLabel?.text = item.name
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM 'at' HH:mm:ss"
+        cell.detailTextLabel?.text = "created on \(formatter.string(from: item.createdAt))"
+        cell.imageView?.image = ItemIcon.getIcon(name: item.name)
+        
+        // Resize image
+        let itemSize = CGSize.init(width: 25, height: 25)
+        UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.main.scale);
+        let imageRect = CGRect.init(origin: CGPoint.zero, size: itemSize)
+        cell.imageView?.image!.draw(in: imageRect)
+        cell.imageView?.image! = UIGraphicsGetImageFromCurrentImageContext()!;
+        UIGraphicsEndImageContext();
+        
         return cell
         
     }
@@ -172,4 +208,4 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
 
 let controller = ShoppingListViewController()
 controller.set(repository: repository)
-PlaygroundPage.current.liveView = controller
+PlaygroundPage.current.liveView = UINavigationController.init(rootViewController: controller)

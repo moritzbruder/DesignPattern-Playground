@@ -1,20 +1,10 @@
 //: # Design Patterns
 /*:
- This playground is supposed to help you understand the basics of a few commonly used object-oriented software design patterns.
+ **Ever wondered how to boost the readability and maintainability of your code?**\
+ This playground interactively teaches you some of the most important patterns in object oriented software.
  
- We will explore all of the patterns with the help of a very simple iOS-Application, that is running in XCode's **Live View** for this playground.
- 
- Therefore it's best if you work your way through the patterns in order
+ **For WWDC Scholarship judges**: It may take more than 3 minutes to look at all patterns. The first chapter is sufficient to understand the nature of my submission
  */
+//: [**Start with the first chapter**](@next)
 
-//: [Start with the first chapter](@next)
-
-/*:
- Of course you can also jump straight into one specific chapter
- 
- ### Contents
- [Introduction to the iOS-app](ShoppingListApplication)\
- [Observer-pattern](Observer)\
- [Singleton-pattern](Singleton_Problem)
- 
- */
+// All icons from icons8.com

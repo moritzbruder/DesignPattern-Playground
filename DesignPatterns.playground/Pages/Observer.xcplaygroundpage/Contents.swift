@@ -2,25 +2,26 @@
 
 //: # The Observer pattern
 /*:
- Let's start with our example again.
+ Your goal is now to make the shopping-list and item counter **update whenever our repository changes**.
  
- We have the **same shopping-list app** with a list and an item counter running.
+ See how the Observable-pattern works in theory:
  
- Our goal is now to make sure that the list and counter **update whenever our repository changes**
- 
- The basic concept behind this pattern is, that `Observer`-objects can watch `Observable`-objects and be notified when the `Observale`-object changes
- 
- Let's take a look at the `Observable`-class
+ ![Observable pattern animation](observer.gif)
+ \
+ \
+ \
+ In code the Observable-pattern looks like the following class:\
+ *Check it out and read the comments!*
  */
-class Observable {
+public class Observable {
     
     /**
-     This list will later hold all of our observers
+     This list will hold all of our observers
     */
     private var observers: [Observer] = []
     
     /**
-     We will use the add(observer:) function to start watching an Observable later
+     We will use add(observer:) to start watching an Observable
      */
     public func add (observer: Observer) {
         self.observers.append(observer)
@@ -28,10 +29,9 @@ class Observable {
     }
     
     /**
-     We use this function within the Obersvable-class to notify the observers
+     This function notifies all observers that something changed
     */
     func notifyDatasetChanged () {
-        // Go through the list of observers and notify every one of them
         for observer in observers {
             observer.datasetChanged(observable: self)
             
@@ -39,19 +39,18 @@ class Observable {
     }
     
 }
- 
 /*:
+ To make a class *observable* it needs to extend the class `Observable`.\
+ Now you get to make the repository observable!
+ 
  * Experiment:
- So let's get started. Go ahead and change our Repository-class from before to extend the Observable class
+ Change the code below to make `Repository` observable.
  
  - Example:
- To extend a class in swift you add the name of the class you want to extend after a colon, like so:\
- \
- `public class Train : Vehicle {`\
- \
- `}`\
- \
- (Train extends Vehicle)
+ Quick reminder: In Swift you extend a class like this:\
+ `class YourClass : ClassToExtend {`\
+          `    ... (einrücken)`\
+ `}`
  */
 // Change the code here to make Repository an Observable
 public class Repository<T> {
@@ -65,20 +64,26 @@ public class Repository<T> {
     
 }
 /*:
- *Nice!* now that our repository is "observable", we can go ahead and take a look at the Observer-protocol:
+ Check the console to see if your changes worked.\
+ Now that the repository is observable, we take a look at the Observer-protocol:\
+ *Read the comments!*
  */
-protocol Observer {
+public protocol Observer {
     
     /**
-     This function is called whenever one of the Observable-instances this Observer is watching changes
-     It has an attribute "observable" to tell which Observable changed in case the Observer is watching multiple Observables
+     This function is called whenever one of the Observables changes
+     The "observable"-Attribute contains the Observable that changed
     */
     func datasetChanged (observable: Observable)
     
 }
-
+//: All objects that want to observe something (for example observe your repository) must implement this protocol.
 /*:
- Continue to the next chapter to start using this pattern with our shopping-list app!
+ Continue to the next page and use this pattern with your shopping-list app!
 
  [Next](@next)
  */
+
+
+// Print experiment result
+print((Repository<String>() as AnyObject) is Observable ? "Nice! Repository is an Observable. Well done." : "Repository is not observable yet.")

@@ -2,18 +2,13 @@ import Foundation
 
 public class Item {
     
-    private let name: String
+    public let name: String
+    public let createdAt: Date
     
     public init (_ name: String) {
         self.name = name
+        self.createdAt = Date.init()
         
     }
-    
-    public func getName () -> String {
-        return self.name
-        
-    }
-    
-    public static let test = "wowy"
     
 }
