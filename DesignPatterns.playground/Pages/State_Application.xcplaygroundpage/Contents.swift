@@ -5,9 +5,9 @@ import UIKit
 
 //: ## Using the state in our app
 /*:
- Check out the Live View again. Our lightbulb-app is running there.\
+ *Check out the Live View again.* Our lightbulb-app is running there.\
  I created a simple `UIViewController` that takes a LighbulbDelegate to show an icon and calls the `toggle()` function, when a button is pressed.\
- I also created two more concrete states: `LightbulbOn` and `LightbulbOff`
+ I also created **two more concrete states:** `LightbulbOn` and `LightbulbOff`
  */
 // The new UIViewController
 let lightbulbViewController = LightbulbViewController()
@@ -21,12 +21,12 @@ lightbulbViewController.delegate = context
 // Show in Live View
 PlaygroundPage.current.liveView = UINavigationController(rootViewController: lightbulbViewController)
 /*:
- I implemented `LightbulbOn` and `LightbulbOff` in a way so that the `toggle()` function calls `context.set(state:)` and sets the state to its opposite.\
- If you **check out the app in the live view** this means that you can **turn the light on and off**. Try it.
+ The `toggle()` function of `LightbulbOn` and `LightbulbOff` calls `context.set(state:)` and sets the state to its opposite.\
+ This means that you can **turn the light on and off**. *Try it in the Live View.*
  
  Now **uncomment the next line** and see what happens if you **click the toggle-button**.
  */
-
+// Uncomment the next line to set the LightbulbDisconnected state
 //context.set(state: LightbulbDisconnectedState(context: context))
 
 

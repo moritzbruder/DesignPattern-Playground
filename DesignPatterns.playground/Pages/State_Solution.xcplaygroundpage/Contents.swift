@@ -53,7 +53,7 @@ class LightbulbDisconnectedState : LightbulbState {
 }
 
 /*:
- If we now implement the `LightbulbDelegate`-protocol, we simply call our `LightbulbState` like so:
+ If we now implement the `LightbulbDelegate`-protocol, **we simply forward all state-dependent functions** to our `LightbulbState`:
  */
 
 // This is our implementation of the delegate. The state-dependent functions are simply forwarded to the concrete state.
