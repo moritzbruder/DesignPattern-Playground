@@ -4,10 +4,11 @@ import UIKit
 
 //: # The State pattern
 /*:
- To use this next pattern, we assume that we now have a different application. A simple application that lets us turn on and off a smart light bulb.
+ To use this next pattern, we assume that we now have a **different application**.\
+ An app that lets us **turn on and off a smart light bulb**.
  */
 /*:
- We also assume that we can interact with the lightbulb via the following interface:
+ We also assume that we can interact with the "physical" light bulb via the following interface:
  */
 protocol Lightbulb {
     
@@ -17,7 +18,7 @@ protocol Lightbulb {
 }
 
 /*:
- Our app basically consists of one button and I already created a delegate to for this button:
+ Our app basically consists of one button and I created a delegate to for this button:
  */
 
 protocol LightbulbDelegate {
@@ -46,10 +47,11 @@ protocol LightbulbDelegate {
  3. The lightbulb is offline, not reachable, broken etc.
  
  So we could use a switch statement to change the bevavior of our delegate.\
- The problem with this is that we then have quite a lot of code, that is in a way not very related, in a single function.
+ This results in **quite a lot of code per function**.\
+ Each function is then basically **multiple, unrelated functions cobbled together**.
  
- To do better, we will use the **State**-pattern
+ 
+ To do better, we will use the **State**-pattern.
  */
-
 
 //: [Next](@next)

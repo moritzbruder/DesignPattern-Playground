@@ -5,7 +5,9 @@ import UIKit
 
 //: ## Preparing to use the State-pattern
 /*:
- To get started, we must define which functions are state-dependent and create a protocol for them.\
+ First, take a look at how the State pattern works in theory:
+ ![State pattern animation](state.mp4 width="600" height="400")
+ To get started, we must define **which functions are state-dependent** and create a protocol for them.\
  In our case it's the `toggle()` and `getImage()` functions of the LightbulbDelegate
  */
 // This is the protocol with our state-dependent functions:
@@ -51,7 +53,7 @@ class LightbulbDisconnectedState : LightbulbState {
 }
 
 /*:
- If we now implement the `LightbulbDelegate`-protocol we simply call our `LightbulbState` like so:
+ If we now implement the `LightbulbDelegate`-protocol, we simply call our `LightbulbState` like so:
  */
 
 // This is our implementation of the delegate. The state-dependent functions are simply forwarded to the concrete state.
