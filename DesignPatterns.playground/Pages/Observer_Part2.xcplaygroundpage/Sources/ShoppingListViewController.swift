@@ -5,8 +5,12 @@ import UIKit
 public class ShoppingListViewController: UIViewController, UITableViewDataSource, UIGestureRecognizerDelegate, Observer {
     
     private var repository: Repository<Item> = Repository<Item>()
+    
+    // UI-Elements
     private let tableView = UITableView()
     private let counterLabel  = UILabel(frame: CGRect(x: 0, y: 110, width: 380, height: 40))
+    private let addItemButton = UIImageView(frame: CGRect(x: 82.5, y: 60, width: 215, height: 44))
+    private let clickArea = UIButton(frame: CGRect(x: 0, y: 20, width: 380, height: 80))
     
     public func set (repository: Repository<Item>) {
         self.repository = repository
@@ -20,37 +24,49 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
         
         self.title = "Shopping List"
         
+        // Set view properties, colors, etc.
+        makeLayout()
+        
         // Add list
-        tableView.dataSource = self
-        tableView.frame = CGRect(x: 0, y: 150, width: 380, height: 520)
         view.addSubview(tableView)
         
         // Add label with number of items
-        counterLabel.textColor = UIColor.gray
-        counterLabel.textAlignment = .center
-        counterLabel.font = UIFont.boldSystemFont(ofSize: counterLabel.font.pointSize)
         view.addSubview(counterLabel)
         
-        // Clickable button
-        let button = UIButton(frame: CGRect(x: 0, y: 20, width: 380, height: 80))
-        button.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
-        view.addSubview(button)
-        
         // Button image
-        let addItemButton = UIImageView(frame: CGRect(x: 82.5, y: 60, width: 215, height: 44))
-        addItemButton.image = UIImage.init(named: "AddItem_Button")
         view.addSubview(addItemButton)
         
-        // Move button
+        // Clickable area for button
+        view.addSubview(clickArea)
+        
+        // Move clickable area
         NSLayoutConstraint.activate([
-            button.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
-            button.firstBaselineAnchor.constraint(equalTo: view.firstBaselineAnchor)
+            clickArea.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
+            clickArea.firstBaselineAnchor.constraint(equalTo: view.firstBaselineAnchor)
             ])
         
-        // init views
+        // Init view values
         updateViews()
         
         self.view = view
+    }
+    
+    /**
+     Sets properties for the UI elements
+     */
+    private func makeLayout () {
+        tableView.dataSource = self
+        tableView.frame = CGRect(x: 0, y: 150, width: 380, height: 520)
+        
+        counterLabel.textColor = UIColor.gray
+        counterLabel.textAlignment = .center
+        counterLabel.font = UIFont.boldSystemFont(ofSize: counterLabel.font.pointSize)
+        
+        addItemButton.image = UIImage.init(named: "AddItem_Button")
+        
+        // Clickable area for image (UITapGestureRecognizer doesn't seem to work in playgrounds..)
+        clickArea.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+        
     }
     
     /* Observer implementation */
@@ -59,6 +75,9 @@ public class ShoppingListViewController: UIViewController, UITableViewDataSource
         
     }
     
+    /**
+     Updates the item counter and the tableView
+     */
     private func updateViews () {
         tableView.reloadData()
         counterLabel.text = "\(self.repository.getAll().count) items"
